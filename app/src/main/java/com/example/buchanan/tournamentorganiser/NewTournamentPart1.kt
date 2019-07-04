@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import java.io.File
+import java.io.FileOutputStream
 
 class NewTournamentPart1 : AppCompatActivity() {
 
@@ -23,9 +24,12 @@ class NewTournamentPart1 : AppCompatActivity() {
         button2.setOnClickListener {
             val titleString = titleEditText.text.toString()
             val intent = Intent(this, ViewTournament::class.java)
-            this.openFileOutput("title", Context.MODE_PRIVATE).use {
-                it.write(titleString.toByteArray())
-            }
+            val fileName = "title"
+            val titleFileFolders = File(this.filesDir, "tournaments/$titleString/")
+            titleFileFolders.mkdirs()
+            val titleFile = File(titleFileFolders, "$fileName.txt")
+            titleFile.appendText(titleString)
+            intent.putExtra("title", titleString)
             startActivity(intent)
         }
     }

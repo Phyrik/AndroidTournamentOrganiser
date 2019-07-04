@@ -17,13 +17,8 @@ class ViewTournament : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
-        val fileInputStream = openFileInput("title")
-        val inputStreamReader = InputStreamReader(fileInputStream)
-        val bufferedReader = BufferedReader(inputStreamReader)
-        val stringBuilder = StringBuilder()
-        val text = bufferedReader.readLine()
-        stringBuilder.append(text)
-        titleTextView.text = stringBuilder.toString()
+        val titleString = intent.getStringExtra("title")
+        titleTextView.text = titleString
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
