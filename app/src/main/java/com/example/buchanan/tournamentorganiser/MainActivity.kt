@@ -4,31 +4,35 @@ import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
+
+    var tournamentsArray = arrayOf<File>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        val button = findViewById<Button>(R.id.newTournamentButton)
+        val button = findViewById<Button>(R.id.new_tournament_button)
 
         button.setOnClickListener {
             val intent = Intent(this, NewTournamentPart1::class.java)
             startActivity(intent)
         }
 
-        val tournamentListView = findViewById<ListView>(R.id.tournamentList)
+        val tournamentListView = findViewById<ListView>(R.id.tournament_list)
         tournamentListView.adapter = TournamentListViewAdapter(this)
+
+        File(this.filesDir, "").walk().forEach {
+            tournamentsArray += it
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private class TournamentListViewAdapter(context: Context) : BaseAdapter() {
+    private inner class TournamentListViewAdapter(context: Context) : BaseAdapter() {
 
         private val mContext: Context
 
@@ -72,9 +76,20 @@ class MainActivity : AppCompatActivity() {
 
         //renders each row
         override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
-            val textView = TextView(mContext)
-            textView.text = "A row"
-            return textView
+            val layoutInflater = LayoutInflater.from(mContext)
+            val rowMain = layoutInflater.inflate(R.layout.row_main, viewGroup, false)
+
+            val mainTextView = rowMain.findViewById<TextView>(R.id.textView2)
+            try {
+                mainTextView.text = tournamentsArray[position].toString()
+            } catch (e: Exception) {
+                println(e)
+            }
+
+            val positionTextView = rowMain.findViewById<TextView>(R.id.position_textview)
+            positionTextView.text = "Tournament number: $position"
+
+            return rowMain
         }
     }
 }
