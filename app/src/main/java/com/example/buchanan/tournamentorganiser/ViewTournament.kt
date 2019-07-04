@@ -1,9 +1,11 @@
 package com.example.buchanan.tournamentorganiser
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.TextView
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -19,6 +21,12 @@ class ViewTournament : AppCompatActivity() {
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
         val titleString = intent.getStringExtra("title")
         titleTextView.text = titleString
+
+        val backButton = findViewById<Button>(R.id.button)
+        backButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
