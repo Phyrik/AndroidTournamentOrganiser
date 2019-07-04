@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import java.io.BufferedReader
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 class ViewTournament : AppCompatActivity() {
 
@@ -14,10 +17,13 @@ class ViewTournament : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val titleTextView = findViewById<TextView>(R.id.titleTextView)
-        val title = openFileInput("title")
-        val titleString = title.toString()
-
-        titleTextView.text = titleString
+        val fileInputStream = openFileInput("title")
+        val inputStreamReader = InputStreamReader(fileInputStream)
+        val bufferedReader = BufferedReader(inputStreamReader)
+        val stringBuilder = StringBuilder()
+        val text = bufferedReader.readLine()
+        stringBuilder.append(text)
+        titleTextView.text = stringBuilder.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

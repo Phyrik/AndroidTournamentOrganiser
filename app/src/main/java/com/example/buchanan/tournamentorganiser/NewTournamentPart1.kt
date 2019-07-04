@@ -18,13 +18,11 @@ class NewTournamentPart1 : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val titleEditText = findViewById<EditText>(R.id.editText)
-        val titleString = titleEditText.text.toString()
         val button2 = findViewById<Button>(R.id.nextButton)
 
         button2.setOnClickListener {
+            val titleString = titleEditText.text.toString()
             val intent = Intent(this, ViewTournament::class.java)
-            //intent.putExtra("title", titleString)
-            val titleFile = File(this.filesDir, "title")
             this.openFileOutput("title", Context.MODE_PRIVATE).use {
                 it.write(titleString.toByteArray())
             }
