@@ -9,11 +9,16 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
+import java.io.BufferedReader
 import java.io.File
+import java.io.FileInputStream
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
 
-    var tournamentsArray = arrayOf<File>()
+    var tournamentsNamesArray = arrayOf<File>()
+    var currentFile: File? = null
+    var titleString: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +35,10 @@ class MainActivity : AppCompatActivity() {
         val tournamentListView = findViewById<ListView>(R.id.tournament_list)
         tournamentListView.adapter = TournamentListViewAdapter(this)
 
-        File(this.filesDir, "").walk().forEach {
-            tournamentsArray += it
+        File(this.filesDir, "/tournaments/").walk().forEach {
+            if(it.isFile && it.name == "title.txt") {
+                tournamentsNamesArray += it
+            }
         }
     }
 
@@ -63,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         //responsible for number of rows in list
         override fun getCount(): Int {
-            return 5
+            return tournamentsNamesArray.size
         }
 
         override fun getItemId(position: Int): Long {
@@ -79,15 +86,33 @@ class MainActivity : AppCompatActivity() {
             val layoutInflater = LayoutInflater.from(mContext)
             val rowMain = layoutInflater.inflate(R.layout.row_main, viewGroup, false)
 
-            val mainTextView = rowMain.findViewById<TextView>(R.id.textView2)
+            val mainTextView = rowMain.findViewById<TextView>(R.id.title_textview)
             try {
-                mainTextView.text = tournamentsArray[position].toString()
+                currentFile = tournamentsNamesArray[position]
+                val fileInputStream = FileInputStream(currentFile?.path)
+                var inputStreamReader = InputStreamReader(fileInputStream)
+                val bufferedReader = BufferedReader(inputStreamReader)
+                val stringBuilder = StringBuilder()
+                val text = bufferedReader.readLine()
+                stringBuilder.append(text)
+                titleString = stringBuilder.toString()
+
+                println(titleString)
+                mainTextView.text = titleString
             } catch (e: Exception) {
                 println(e)
             }
 
             val positionTextView = rowMain.findViewById<TextView>(R.id.position_textview)
             positionTextView.text = "Tournament number: $position"
+
+            val viewButton = rowMain.findViewById<TextView>(R.id.view_button)
+            viewButton.setOnClickListener {
+                titleString = rowMain.findViewById<TextView>(R.id.title_textview).text.toString()
+                val intent = Intent(mContext, ViewTournament::class.java)
+                intent.putExtra("title", titleString)
+                startActivity(intent)
+            }
 
             return rowMain
         }

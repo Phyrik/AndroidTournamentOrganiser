@@ -4,4 +4,7 @@
     <string name="title">Title</string>
     <string name="next">Next</string>
     <string name="test">Test</string>
+    <string name="view">View</string>
+    <string name="name">Name</string>
+    <string name="delete">Delete</string>
 </resources>
