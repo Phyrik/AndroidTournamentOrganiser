@@ -7,4 +7,8 @@
     <string name="view">View</string>
     <string name="name">Name</string>
     <string name="delete">Delete</string>
+    <string name="participants">Participants</string>
+    <string name="new_tournament">New Tournament</string>
+    <string name="participant">Participant</string>
+    <string name="add_participant">Add Participant</string>
 </resources>

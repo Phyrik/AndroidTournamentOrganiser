@@ -19,22 +19,69 @@
             android:text="@string/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" android:layout_marginTop="8dp"
+            android:id="@+id/title_textview" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/my_toolbar" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" android:textSize="36sp"/>
+
     <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/editText" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:textSize="18sp" android:hint="@string/title"
-            android:importantForAutofill="no" tools:targetApi="o"/>
+        android:id="@+id/title_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/title"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/title_textview"
+        app:layout_constraintTop_toBottomOf="@+id/title_textview"
+        tools:targetApi="o" />
     <Button
             android:text="@string/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/nextButton" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+            android:id="@+id/next_button" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/participants_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/participants"
+        android:textSize="36sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_edittext" />
+
+    <LinearLayout
+        android:id="@+id/participants_linearlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@+id/participants_textview"
+        app:layout_constraintTop_toBottomOf="@+id/participants_textview">
+
+        <EditText
+            android:id="@+id/participants_edittext_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/participant"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="18sp"
+            tools:targetApi="o" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_participant_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/add_participant"
+        app:layout_constraintStart_toStartOf="@+id/participants_linearlayout"
+        app:layout_constraintTop_toBottomOf="@+id/participants_linearlayout" />
+
 </android.support.constraint.ConstraintLayout>

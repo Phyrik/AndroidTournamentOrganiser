@@ -1,15 +1,15 @@
 package com.example.buchanan.tournamentorganiser
 
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import java.io.File
-import java.io.FileOutputStream
 
 class NewTournamentPart1 : AppCompatActivity() {
 
@@ -18,10 +18,9 @@ class NewTournamentPart1 : AppCompatActivity() {
         setContentView(R.layout.activity_new_tournament_part1)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        val titleEditText = findViewById<EditText>(R.id.editText)
-        val button2 = findViewById<Button>(R.id.nextButton)
-
-        button2.setOnClickListener {
+        val titleEditText = findViewById<EditText>(R.id.title_edittext)
+        val nextButton = findViewById<Button>(R.id.next_button)
+        nextButton.setOnClickListener {
             val titleString = titleEditText.text.toString()
             val intent = Intent(this, ViewTournament::class.java)
             val fileName = "title"
@@ -31,6 +30,17 @@ class NewTournamentPart1 : AppCompatActivity() {
             titleFile.appendText(titleString)
             intent.putExtra("title", titleString)
             startActivity(intent)
+        }
+
+        val participantLinearLayout = findViewById<LinearLayout>(R.id.participants_linearlayout)
+        val addParticipantButton = findViewById<Button>(R.id.add_participant_button)
+        var numberOfParticipants = 1
+        addParticipantButton.setOnClickListener {
+            numberOfParticipants++
+            val participantEditText = EditText(this)
+            participantEditText.hint = getString(R.string.participant)
+            participantEditText.id = View.generateViewId()
+            participantLinearLayout.addView(participantEditText)
         }
     }
 
