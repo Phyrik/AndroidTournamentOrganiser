@@ -1,13 +1,10 @@
 package com.example.buchanan.tournamentorganiser
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import java.io.File
@@ -20,8 +17,13 @@ class ViewTournament : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
         val titleTextView = findViewById<TextView>(R.id.title_textview)
+        //val participantsTextView = findViewById<TextView>(R.id.participants_textview)
         val titleString = intent.getStringExtra("title")
+        val participantsString = intent.getStringExtra("participants")
+        participantsString.replace("[", "")
+        participantsString.replace("]", "")
         titleTextView.text = titleString
+        //participantsTextView.text = "Participants: " + participantsString
 
         val backButton = findViewById<Button>(R.id.back_button)
         backButton.setOnClickListener {
@@ -33,8 +35,10 @@ class ViewTournament : AppCompatActivity() {
         deleteButton.setOnClickListener {
             var fileToDelete: File? = File(this.filesDir, "/tournaments/$titleString/title.txt")
             fileToDelete?.delete()
+            fileToDelete = File(this.filesDir, "tournaments/$titleString/participants.txt")
+            fileToDelete.delete()
             fileToDelete = File(this.filesDir, "/tournaments/$titleString")
-            fileToDelete?.delete()
+            fileToDelete.delete()
             fileToDelete = null
 
             val intent = Intent(this, MainActivity::class.java)

@@ -18,21 +18,35 @@ class NewTournamentPart1 : AppCompatActivity() {
         setContentView(R.layout.activity_new_tournament_part1)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
+        val participantLinearLayout = findViewById<LinearLayout>(R.id.participants_linearlayout)
+
         val titleEditText = findViewById<EditText>(R.id.title_edittext)
         val nextButton = findViewById<Button>(R.id.next_button)
         nextButton.setOnClickListener {
             val titleString = titleEditText.text.toString()
-            val intent = Intent(this, ViewTournament::class.java)
-            val fileName = "title"
+
             val titleFileFolders = File(this.filesDir, "tournaments/$titleString/")
             titleFileFolders.mkdirs()
-            val titleFile = File(titleFileFolders, "$fileName.txt")
+            val titleFile = File(titleFileFolders, "title.txt")
             titleFile.appendText(titleString)
+
+            val participantsArray = arrayListOf<String>()
+            val participants = participantLinearLayout.childCount
+            for (i in 1..participants) {
+                var participantEditText = participantLinearLayout.getChildAt(i-1) as? EditText
+                participantsArray += participantEditText?.text.toString()
+                println(participantsArray)
+            }
+
+            val participantsFile = File(titleFileFolders, "participants.txt")
+            participantsFile.appendText(participantsArray.toString())
+
+            val intent = Intent(this, ViewTournament::class.java)
             intent.putExtra("title", titleString)
+            intent.putExtra("participants", participantsArray.toString())
             startActivity(intent)
         }
 
-        val participantLinearLayout = findViewById<LinearLayout>(R.id.participants_linearlayout)
         val addParticipantButton = findViewById<Button>(R.id.add_participant_button)
         var numberOfParticipants = 1
         addParticipantButton.setOnClickListener {
